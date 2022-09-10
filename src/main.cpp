@@ -1,10 +1,7 @@
-#include <fmt/format.h>
-
 #include "p1/pattern_count.hpp"
 #include "p2/find_clumps.hpp"
+#include "p3/minimum_skew.hpp"
 
 int main() {
-    //p1::solve();
-    p2::solve();
-
+    p3::solve();
 }
