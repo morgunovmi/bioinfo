@@ -37,8 +37,31 @@ auto find_freq_words_with_mismatches(std::string_view text, std::size_t k, std::
     std::vector<std::string> patterns{};
     std::map<std::string, std::size_t> freq_map{};
     for (std::size_t i = 0; i < t.size() - k; ++i) {
-        const auto neighborhood = neighbors(t.substr(i, k), d);
+        auto neighborhood = neighbors(t.substr(i, k), d);
+        std::vector<std::string> rev{};
+        
+        // Fill rev with reverse complements
+        std::transform(neighborhood.begin(), neighborhood.end(), std::back_inserter(rev),
+                       [](auto & str){ auto rev = std::string{str.rbegin(), str.rend()};
+                           std::transform(rev.begin(), rev.end(), rev.begin(), [](auto c){ switch (c) {
+                                              case 'A':
+                                                  return 'T';
+                                              case 'T':
+                                                  return 'A';
+                                              case 'G':
+                                                  return 'C';
+                                              case 'C':
+                                                  return 'G';
+                                              default:
+                                                  return 'A';
+                                          }});
+                           return rev;});
+
         for (const auto & neighbor : neighborhood) {
+            ++freq_map[neighbor];
+        }
+
+        for (const auto & neighbor : rev) {
             ++freq_map[neighbor];
         }
     }
@@ -53,7 +76,7 @@ auto find_freq_words_with_mismatches(std::string_view text, std::size_t k, std::
 }
 
 void solve() {
-    const auto str = read_file_to_string("samples/FrequentWords/dataset_240221_9.txt");
+    const auto str = read_file_to_string("samples/FrequentWords/rosalind_ba1j.txt");
     const auto [genome, numString] = split_once(str, "\n");
 
     std::size_t k = 0, d = 0;
