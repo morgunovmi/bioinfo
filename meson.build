@@ -12,6 +12,7 @@ sources = files([
   'src/p1/pattern_count.cpp',
   'src/p2/find_clums.cpp',
   'src/p3/minimum_skew.cpp',
+  'src/p4/approx_occurences.cpp',
   'src/main.cpp',
   ])
 
