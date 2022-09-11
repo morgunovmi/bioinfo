@@ -2,7 +2,8 @@
 #include "p2/find_clumps.hpp"
 #include "p3/minimum_skew.hpp"
 #include "p4/approx_occurences.hpp"
+#include "p5/frequent_words.hpp"
 
 int main() {
-    p4::solve();
+    p5::solve();
 }

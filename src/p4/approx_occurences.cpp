@@ -26,13 +26,15 @@ auto find_approx_occurences(std::string_view pattern, std::string_view text, std
 }
 
 void solve() {
-    const auto genome = read_file_to_string("samples/ApproxOccurences/rosalind_ba1h.txt");
+    const auto genome = read_file_to_string("samples/ApproxOccurences/dataset_240221_6.txt");
     const auto [pattern, s] = split_once(genome, "\n");
     const auto [text, d_str] = split_once(s, "\n");
     const auto d = std::stoi(d_str.data());
 
-    for (const auto & idx : find_approx_occurences(pattern, text, d)) {
+    const auto o = find_approx_occurences(pattern, text, d);
+    for (const auto & idx : o) {
         fmt::print("{} ", idx);
     }
+    fmt::print("\n{}\n", o.size());
 }
 }
