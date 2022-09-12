@@ -3,7 +3,6 @@ project('bioinfo', 'cpp',
         )
 
 fmt = dependency('fmt')
-rangev3 = dependency('range-v3')
 
 incdir = include_directories('src')
 
@@ -18,4 +17,4 @@ sources = files([
   ])
 
 executable('app', sources, include_directories : incdir,
-          dependencies : [fmt, rangev3])
+          dependencies : [fmt])
