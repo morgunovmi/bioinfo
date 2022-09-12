@@ -17,10 +17,8 @@ auto neighbors(std::string_view pattern, std::size_t d) -> std::vector<std::stri
         return {"A", "T", "G", "C"};
     }
     std::vector<std::string> neighborhood{};
-    const auto suffix = p.substr(1);
-    const auto suffix_neighbors = neighbors(suffix, d);
-    for (const auto & text : suffix_neighbors) {
-        if (p4::hamming_distance(suffix, text) < d) {
+    for (const auto & text : neighbors(p.substr(1), d)) {
+        if (p4::hamming_distance(p.substr(1), text) < d) {
             for (const auto & nucl : {"A", "T", "G", "C"}) {
                 neighborhood.push_back(nucl + text);
             }
@@ -42,20 +40,23 @@ auto find_freq_words_with_mismatches(std::string_view text, std::size_t k, std::
         
         // Fill rev with reverse complements
         std::transform(neighborhood.begin(), neighborhood.end(), std::back_inserter(rev),
-                       [](auto & str){ auto rev = std::string{str.rbegin(), str.rend()};
-                           std::transform(rev.begin(), rev.end(), rev.begin(), [](auto c){ switch (c) {
-                                              case 'A':
-                                                  return 'T';
-                                              case 'T':
-                                                  return 'A';
-                                              case 'G':
-                                                  return 'C';
-                                              case 'C':
-                                                  return 'G';
-                                              default:
-                                                  return 'A';
-                                          }});
-                           return rev;});
+                       [](auto & str){ 
+                           auto rev = std::string{str.rbegin(), str.rend()};
+                           std::transform(rev.begin(), rev.end(), rev.begin(), [](auto c){
+                                              switch (c) {
+                                                  case 'A':
+                                                      return 'T';
+                                                  case 'T':
+                                                      return 'A';
+                                                  case 'G':
+                                                      return 'C';
+                                                  case 'C':
+                                                      return 'G';
+                                                  default:
+                                                      return 'A';
+                                              }});
+                           return rev;
+                       });
 
         for (const auto & neighbor : neighborhood) {
             ++freq_map[neighbor];
