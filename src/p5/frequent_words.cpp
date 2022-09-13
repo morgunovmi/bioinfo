@@ -1,3 +1,4 @@
+#include <ranges>
 #include <map>
 #include <algorithm>
 #include <sstream>
@@ -30,6 +31,7 @@ auto neighbors(std::string_view pattern, std::size_t d) -> std::vector<std::stri
 }
 
 auto find_freq_words_with_mismatches(std::string_view text, std::size_t k, std::size_t d) -> std::vector<std::string> {
+    namespace rng = std::ranges;
     std::string t{text};
 
     std::vector<std::string> patterns{};
@@ -37,12 +39,12 @@ auto find_freq_words_with_mismatches(std::string_view text, std::size_t k, std::
     for (std::size_t i = 0; i < t.size() - k; ++i) {
         auto neighborhood = neighbors(t.substr(i, k), d);
         std::vector<std::string> rev{};
-        
+
         // Fill rev with reverse complements
-        std::transform(neighborhood.begin(), neighborhood.end(), std::back_inserter(rev),
+        rng::transform(neighborhood, std::back_inserter(rev),
                        [](auto & str){ 
                            auto rev = std::string{str.rbegin(), str.rend()};
-                           std::transform(rev.begin(), rev.end(), rev.begin(), [](auto c){
+                           rng::transform(rev, rev.begin(), [](auto c){
                                               switch (c) {
                                                   case 'A':
                                                       return 'T';
