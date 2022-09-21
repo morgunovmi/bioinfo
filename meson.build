@@ -13,6 +13,7 @@ sources = files([
   'src/p3/minimum_skew.cpp',
   'src/p4/approx_occurences.cpp',
   'src/p5/frequent_words.cpp',
+  'src/p6/profile_most_probable.cpp',
   'src/main.cpp',
   ])
 
