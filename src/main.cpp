@@ -4,7 +4,8 @@
 #include "p4/approx_occurences.hpp"
 #include "p5/frequent_words.hpp"
 #include "p6/profile_most_probable.hpp"
+#include "p7/greedy_motif_search.hpp"
 
 int main() {
-    p6::solve();
+    p7::solve();
 }

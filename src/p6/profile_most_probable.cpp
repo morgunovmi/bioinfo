@@ -46,7 +46,7 @@ auto find_profile_most_probable_kmer(std::string_view text, std::size_t k, const
 }
 
 auto parse_profile_mat(std::string_view mat_str, std::size_t k) -> profile_mat {
-    const auto row_strs = tokenize(mat_str);
+    const auto row_strs = tokenize(mat_str, "\r\n\t");
 
     profile_mat res = std::vector(4, std::vector<double>());
     for (std::size_t i = 0; i < 4; ++i) {
