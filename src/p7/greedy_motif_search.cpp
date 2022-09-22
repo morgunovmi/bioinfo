@@ -20,7 +20,8 @@ namespace p7 {
                     break;
                 case 'C':
                     ++count[1][i];
-                    break; case 'G':
+                    break;
+                case 'G':
                     ++count[2][i];
                     break;
                 case 'T':

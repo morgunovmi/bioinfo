@@ -15,6 +15,7 @@ sources = files([
   'src/p5/frequent_words.cpp',
   'src/p6/profile_most_probable.cpp',
   'src/p7/greedy_motif_search.cpp',
+  'src/p8/randomized_motif_search.cpp',
   'src/main.cpp',
   ])
 

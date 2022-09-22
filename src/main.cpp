@@ -5,7 +5,8 @@
 #include "p5/frequent_words.hpp"
 #include "p6/profile_most_probable.hpp"
 #include "p7/greedy_motif_search.hpp"
+#include "p8/randomized_motif_search.hpp"
 
 int main() {
-    p7::solve();
+    p8::solve();
 }
