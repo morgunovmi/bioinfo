@@ -6,7 +6,8 @@
 #include "p6/profile_most_probable.hpp"
 #include "p7/greedy_motif_search.hpp"
 #include "p8/randomized_motif_search.hpp"
+#include "p9/gibbs_sampler.hpp"
 
 int main() {
-    p8::solve();
+    p9::solve();
 }
