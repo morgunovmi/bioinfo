@@ -7,7 +7,8 @@
 #include "p7/greedy_motif_search.hpp"
 #include "p8/randomized_motif_search.hpp"
 #include "p9/gibbs_sampler.hpp"
+#include "p10/distance_between_pattern_and_strings.hpp"
 
 int main() {
-    p9::solve();
+    p10::solve();
 }
