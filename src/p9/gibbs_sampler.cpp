@@ -16,21 +16,19 @@ std::default_random_engine dre{rd()};
 std::uniform_real_distribution distr{0.0, 1.0};
 
 auto random(std::vector<double>& raw_distr) -> std::size_t {
-    std::ranges::transform(raw_distr, raw_distr.begin(), 
-                           [&raw_distr](auto val){ return val / std::accumulate(raw_distr.begin(), raw_distr.end(), 0.0); });
+    const auto val = std::accumulate(raw_distr.begin(), raw_distr.end(), 0.0) * distr(dre);
 
-    const auto val = distr(dre);
-    double start = 0.0;
-    for (std::size_t i = 0; i < raw_distr.size(); ++i) {
-        if (val > start && val <= start + raw_distr[i]) {
-            return i;
-        }
-        start += raw_distr[i];
+    double accum = 0.0;
+    std::size_t idx = 0;
+    while (accum < val) {
+        accum += raw_distr[idx];
+        ++idx;
     }
+
+    return idx - 1;
 }
 
 auto get_pattern_prob(std::string_view pattern, std::size_t k, const p6::profile_mat profile) -> double {
-    fmt::print("Pattern in get_pattern_prob : {}\n", pattern);
     double cur_prob = 0.0;
     for (std::size_t j = 0; j < k; ++j) {
         std::size_t row_index = 0;
@@ -60,41 +58,21 @@ auto get_pattern_prob(std::string_view pattern, std::size_t k, const p6::profile
 }
 
 auto profile_randomly_generated_kmer(std::string_view text, std::size_t k, const p6::profile_mat& profile) -> std::string_view {
-    fmt::print("Dna string in profile_randomly_generated_kmer: {}\n", text);
     std::vector<double> probs{};
     for (std::size_t i = 0; i < text.size() - k; ++i) {
         probs.emplace_back(get_pattern_prob(text.substr(i, k), k, profile));
     }
 
-    /*
-    for (const auto & prob : probs) {
-        fmt::print("{} ", prob);
-    }
-    fmt::print("\n");
-    */
-
     return text.substr(random(probs), k);
 }
 
 auto gibbs_sampler(const std::vector<std::string_view>& dna, std::size_t k, std::size_t t, std::size_t n) -> std::vector<std::string_view> {
-    fmt::print("Dna one gibbs_sampler entry :\n");
-    for (const auto & str : dna) {
-        fmt::print("{}\n", str);
-    }
-    fmt::print("\n");
-
     std::uniform_int_distribution index_distr{0, static_cast<int>(dna[0].size() - k)};
 
     std::vector<std::string_view> motifs{};
     for (const auto & str : dna) {
         motifs.emplace_back(str.substr(index_distr(dre), k));
     }
-
-    fmt::print("Randomly selected motifs :\n");
-    for (const auto & str : motifs) {
-        fmt::print("{}\n", str);
-    }
-    fmt::print("\n");
 
     auto best_motifs = motifs;
 
@@ -107,24 +85,9 @@ auto gibbs_sampler(const std::vector<std::string_view>& dna, std::size_t k, std:
                 reduced_motifs.push_back(motifs[k]);
             }
         }
-
-        fmt::print("Reduced motifs :\n");
-        for (const auto & str : reduced_motifs) {
-            fmt::print("{}\n", str);
-        }
-        fmt::print("Reduced motifs count : {}\n\n", reduced_motifs.size());
-        assert(reduced_motifs.size() == 4);
+        assert(reduced_motifs.size() == dna.size() - 1);
 
         const auto profile = p7::form_profile_with_laplace(reduced_motifs, k);
-
-        fmt::print("Profile : \n");
-        for (const auto & row : profile) {
-            for (const auto & val : row) {
-                fmt::print("{} ", val);
-            }
-            fmt::print("\n");
-        }
-        fmt::print("\n");
 
         motifs[i] = profile_randomly_generated_kmer(dna[i], k, profile);
         if (p7::score_motifs(motifs, k) < p7::score_motifs(best_motifs, k)) {
@@ -135,16 +98,28 @@ auto gibbs_sampler(const std::vector<std::string_view>& dna, std::size_t k, std:
 }
 
 void solve() {
-    const auto file_str = read_file_to_string("samples/GibbsSampler/sample.txt");
+    const auto file_str = read_file_to_string("samples/GibbsSampler/rosalind_ba2g.txt");
     const auto [num_str, dna_str] = split_once(file_str, "\n");
 
     std::stringstream ss{num_str.data()};
     std::size_t k = 0, t = 0, n = 0;
     ss >> k >> t >> n;
 
-    const auto dna = tokenize(dna_str, " ");
-    for (const auto & str : gibbs_sampler(dna, k, t, n)) {
-        fmt::print("{} ", str);
+    const auto dna = tokenize(dna_str, "\n");
+
+    std::size_t best_score = LLONG_MAX;
+    std::vector<std::string_view> best_motifs;
+    for (std::size_t i = 0; i < 400; ++i) {
+        const auto motifs = gibbs_sampler(dna, k, t, n);
+        const auto score = p7::score_motifs(motifs, k);
+        if (score < best_score) {
+            best_score = score;
+            best_motifs = std::move(motifs);
+        }
+    }
+
+    for (const auto & str : best_motifs) {
+        fmt::print("{}\n", str);
     }
 }
 } 
