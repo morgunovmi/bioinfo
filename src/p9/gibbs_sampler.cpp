@@ -1,6 +1,5 @@
 #include <fmt/format.h>
 #include <numeric>
-#include <ranges>
 #include <algorithm>
 #include <random>
 #include <cassert>
@@ -13,19 +12,10 @@
 namespace p9 {
 std::random_device rd{};
 std::default_random_engine dre{rd()};
-std::uniform_real_distribution distr{0.0, 1.0};
 
 auto random(std::vector<double>& raw_distr) -> std::size_t {
-    const auto val = std::accumulate(raw_distr.begin(), raw_distr.end(), 0.0) * distr(dre);
-
-    double accum = 0.0;
-    std::size_t idx = 0;
-    while (accum < val) {
-        accum += raw_distr[idx];
-        ++idx;
-    }
-
-    return idx - 1;
+    std::discrete_distribution<std::size_t> distribution{raw_distr.begin(), raw_distr.end()};
+    return distribution(dre);
 }
 
 auto get_pattern_prob(std::string_view pattern, std::size_t k, const p6::profile_mat profile) -> double {
