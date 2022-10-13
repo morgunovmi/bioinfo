@@ -18,6 +18,8 @@ sources = files([
   'src/p8/randomized_motif_search.cpp',
   'src/p9/gibbs_sampler.cpp',
   'src/p10/distance_between_pattern_and_strings.cpp',
+  'src/p11/find_eulerian_path.cpp',
+  'src/p12/k_universal_string.cpp',
   'src/main.cpp',
   ])
 

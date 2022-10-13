@@ -12,7 +12,7 @@ auto read_file_to_string(std::string_view file_path) -> std::string {
 auto split_once(std::string_view string, const std::string_view delim) -> std::pair<std::string_view, std::string_view> {
     auto pos = string.find(delim);
     if (pos != std::string::npos) {
-        return { string.substr(0, pos), string.substr(pos + 1) };
+        return { string.substr(0, pos), string.substr(pos + delim.size()) };
     }
     throw std::runtime_error{"Couldn't split string"};
 }

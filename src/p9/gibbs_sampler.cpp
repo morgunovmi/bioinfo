@@ -88,18 +88,18 @@ auto gibbs_sampler(const std::vector<std::string_view>& dna, std::size_t k, std:
 }
 
 void solve() {
-    const auto file_str = read_file_to_string("samples/GibbsSampler/rosalind_ba2g.txt");
+    const auto file_str = read_file_to_string("samples/GibbsSampler/inputs/input_1.txt");
     const auto [num_str, dna_str] = split_once(file_str, "\n");
 
     std::stringstream ss{num_str.data()};
     std::size_t k = 0, t = 0, n = 0;
     ss >> k >> t >> n;
 
-    const auto dna = tokenize(dna_str, "\n");
+    const auto dna = tokenize(dna_str, " ");
 
     std::size_t best_score = LLONG_MAX;
     std::vector<std::string_view> best_motifs;
-    for (std::size_t i = 0; i < 400; ++i) {
+    for (std::size_t i = 0; i < 100; ++i) {
         const auto motifs = gibbs_sampler(dna, k, t, n);
         const auto score = p7::score_motifs(motifs, k);
         if (score < best_score) {

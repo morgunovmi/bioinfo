@@ -8,7 +8,9 @@
 #include "p8/randomized_motif_search.hpp"
 #include "p9/gibbs_sampler.hpp"
 #include "p10/distance_between_pattern_and_strings.hpp"
+#include "p11/find_eulerian_path.hpp"
+#include "p12/k_universal_string.hpp"
 
 int main() {
-    p10::solve();
+    p12::solve();
 }
