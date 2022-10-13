@@ -26,3 +26,13 @@ auto tokenize(std::string_view string, std::string_view delims) -> std::vector<s
     }
     return parts;
 }
+
+auto tokenize_str(const std::string string, std::string_view delims) -> std::vector<std::string> {
+    std::vector<std::string> parts{};
+    for (auto beg = string.find_first_not_of(delims); beg != std::string::npos;) {
+        auto end = string.find_first_of(delims, beg);
+        parts.emplace_back(string.substr(beg, end - beg));
+        beg = string.find_first_not_of(delims, end);
+    }
+    return parts;
+}

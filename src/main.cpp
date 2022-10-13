@@ -10,7 +10,8 @@
 #include "p10/distance_between_pattern_and_strings.hpp"
 #include "p11/find_eulerian_path.hpp"
 #include "p12/k_universal_string.hpp"
+#include "p14/contigs_from_reads.hpp"
 
 int main() {
-    p12::solve();
+    p14::solve();
 }
