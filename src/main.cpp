@@ -11,7 +11,8 @@
 #include "p11/find_eulerian_path.hpp"
 #include "p12/k_universal_string.hpp"
 #include "p14/contigs_from_reads.hpp"
+#include "p16/peptide_encoding.hpp"
 
 int main() {
-    p14::solve();
+    p16::solve();
 }

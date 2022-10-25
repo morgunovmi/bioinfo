@@ -21,6 +21,7 @@ sources = files([
   'src/p11/find_eulerian_path.cpp',
   'src/p12/k_universal_string.cpp',
   'src/p14/contigs_from_reads.cpp',
+  'src/p16/peptide_encoding.cpp',
   'src/main.cpp',
   ])
 

@@ -1,5 +1,6 @@
 #include "k_universal_string.hpp"
 
+#include <algorithm>
 #include <iostream>
 #include <fmt/format.h>
 #include <string_view>

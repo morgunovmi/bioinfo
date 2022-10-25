@@ -2,6 +2,7 @@
 #include <fmt/format.h>
 #include <unordered_map>
 #include <stack>
+#include <algorithm>
 
 #include "find_eulerian_path.hpp"
 #include "utils/util.hpp"

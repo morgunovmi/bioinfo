@@ -17,6 +17,14 @@ auto split_once(std::string_view string, const std::string_view delim) -> std::p
     throw std::runtime_error{"Couldn't split string"};
 }
 
+auto split_once_str(const std::string& string, const std::string_view delim) -> std::pair<std::string, std::string> {
+    auto pos = string.find(delim);
+    if (pos != std::string::npos) {
+        return { string.substr(0, pos), string.substr(pos + delim.size()) };
+    }
+    throw std::runtime_error{"Couldn't split string"};
+}
+
 auto tokenize(std::string_view string, std::string_view delims) -> std::vector<std::string_view> {
     std::vector<std::string_view> parts{};
     for (auto beg = string.find_first_not_of(delims); beg != std::string::npos;) {
