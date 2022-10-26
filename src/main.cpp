@@ -12,7 +12,8 @@
 #include "p12/k_universal_string.hpp"
 #include "p14/contigs_from_reads.hpp"
 #include "p16/peptide_encoding.hpp"
+#include "p17/peptide_total_mass.hpp"
 
 int main() {
-    p16::solve();
+    p17::solve();
 }

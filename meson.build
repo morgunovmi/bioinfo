@@ -22,6 +22,7 @@ sources = files([
   'src/p12/k_universal_string.cpp',
   'src/p14/contigs_from_reads.cpp',
   'src/p16/peptide_encoding.cpp',
+  'src/p17/peptide_total_mass.cpp',
   'src/main.cpp',
   ])
 
